@@ -69,17 +69,17 @@ Player.prototype.handleInput = function(key) {
 // a method used to detect collisions. Magic numbers are trial and error. Need to be put in constants
 Player.prototype.checkCollisions = function() {
     for (var i=0; i<allEnemies.length; i++) {
-        if (player.x < allEnemies[i].x + 50 &&
-            player.x + 100 > allEnemies[i].x + 50 &&
-            player.y + 85 < allEnemies[i].y + 100 &&
-            player.y + 145 > allEnemies[i].y + 100) {
-            player.resetPlayerPosition();
+        if (this.x < allEnemies[i].x + 50 &&
+            this.x + 100 > allEnemies[i].x + 50 &&
+            this.y + 85 < allEnemies[i].y + 100 &&
+            this.y + 145 > allEnemies[i].y + 100) {
+            this.resetPlayerPosition();
         }
     }
 };
 Player.prototype.resetPlayerPosition = function() {
-    player.x = 200;
-    player.y = 390;
+    this.x = 200;
+    this.y = 390;
 };
 
 
