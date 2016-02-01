@@ -1,15 +1,26 @@
-// Enemies our player must avoid
-var Enemy = function(x, y) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+//Superclass of game characters
+var GameCharacter = function(x, y, sprite) {
     this.x = x;
     this.y = y;
+    this.sprite = sprite;
+};
+// Draw the game character on the screen
+GameCharacter.prototype.render = function() {
+
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Enemies our player must avoid
+// Enemy is a subclass of GameCharacter
+var Enemy = function(x, y) {
+    // The image/sprite for our enemies, this uses
+    // a helper we've provided to easily load images
+    GameCharacter.call(this, x, y, 'images/enemy-bug.png');
     this.speed = this.generateSpeed();
 };
+Enemy.prototype = Object.create(GameCharacter.prototype);
+Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -28,11 +39,6 @@ Enemy.prototype.update = function(dt) {
     }
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 Enemy.prototype.generateSpeed = function() {
     return Math.floor((Math.random() * 450) + 40);
 };
@@ -40,18 +46,17 @@ Enemy.prototype.generateSpeed = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+// Player is a subclass of GameCharacter
 var Player = function() {
-    this.sprite = 'images/char-boy.png';
-    this.x = 200;
-    this.y = 390;
+    GameCharacter.call(this, 200, 390, 'images/char-boy.png');
 };
+Player.prototype = Object.create(GameCharacter.prototype);
+Player.prototype.constructor = Player;
+
 Player.prototype.update = function() {
     this.checkCollisions();
 };
-Player.prototype.render = function() {
 
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 Player.prototype.handleInput = function(key) {
     if (key === 'up') {
         this.y = this.y - 83;
